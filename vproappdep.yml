@@ -20,7 +20,7 @@ spec:
               name: vproapp-port
       initContainers:
         - name: init-mydb
-          image: busybox
+          image: busybox:1.28.4
           command:
             [
               "sh",
@@ -28,7 +28,7 @@ spec:
               "until nslookup vprodb; do echo waiting for mydb; sleep 2; done;",
             ]
         - name: init-memcache
-          image: busybox
+          image: busybox:1.28.4
           command:
             [
               "sh",
