@@ -15,6 +15,10 @@ spec:
       containers:
         - name: vproapp
           image: lloydamt/vprofileapp:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8080
               name: vproapp-port
@@ -25,7 +29,7 @@ spec:
             [
               "sh",
               "-c",
-              "until nslookup vprodb; do echo waiting for mydb; sleep 2; done;",
+              "until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;",
             ]
         - name: init-memcache
           image: busybox
@@ -33,5 +37,5 @@ spec:
             [
               "sh",
               "-c",
-              "until nslookup vprocache01; do echo waiting for memcached; sleep 2; done;",
+              "until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;",
             ]
